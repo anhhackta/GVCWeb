@@ -21,7 +21,7 @@ import httpx
 import aiofiles
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from packer_brotli import stream_unpack_async
+from utils.packer_brotli import stream_unpack_async
 
 
 def format_size(size_bytes: int) -> str:
