@@ -1,175 +1,175 @@
 # GTA Vice City — HTML5 Port (DOS Zone)
+**Dịch sang tiếng Việt:** Angry - HoàngX
+[![Mở trên Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/13GFRIxTwVbixv0Vup9MSVXnB4SLmA3G7?usp=sharing)
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/13GFRIxTwVbixv0Vup9MSVXnB4SLmA3G7?usp=sharing)
+> **Khởi động nhanh:** Chạy server chỉ với một cú nhấp chuột trên Google Colab. Nhấp vào badge ở trên, chạy cell, và sử dụng nút **"Launch Game"**. Mật khẩu tunnel sẽ được sao chép tự động — chỉ cần dán vào trang mở ra.
 
-> **Fast Start:** Run the server in one click using Google Colab. Click the badge above, run the cell, and use the **"Launch Game"** button. The tunnel password will be copied automatically — just paste it on the page that opens.
+Phiên bản web của GTA: Vice City chạy trên trình duyệt thông qua WebAssembly.
 
-Web-based port of GTA: Vice City running in browser via WebAssembly.
+## Yêu cầu
 
-## Requirements
+- Colab hoặc Docker hoặc Python 3.8+ hoặc PHP 8.0+
+- Các thư viện phụ thuộc từ `requirements.txt`
 
-- Colab or Docker or Python 3.8+ or PHP 8.0+
-- Dependencies from `requirements.txt`
+## Bắt đầu nhanh
 
-## Quick Start
-
-1.  **Clone the repository**:
+1.  **Clone repository**:
     ```bash
     git clone https://github.com/Lolendor/reVCDOS.git
     cd reVCDOS
     ```
 
-2. **Configure Assets** (Optional):
+2. **Cấu hình tài nguyên** (Tùy chọn):
 
-   By default, the project uses **DOS Zone CDN** — no local assets needed. For offline hosting you can use:
-   *   **Packed archive** (`--packed` or `--unpacked`) — single `.bin` file with all assets
-   *   **Local folders** (`--vcsky_local`, `--vcbr_local`) — unpacked asset directories
-   *   **Cache mode** (`--vcsky_cache`, `--vcbr_cache`) — download from CDN once, serve locally after
+   Theo mặc định, dự án sử dụng **DOS Zone CDN** — không cần tài nguyên cục bộ. Để lưu trữ offline, bạn có thể sử dụng:
+   *   **Tệp nén** (`--packed` hoặc `--unpacked`) — tệp `.bin` duy nhất chứa tất cả tài nguyên
+   *   **Thư mục cục bộ** (`--vcsky_local`, `--vcbr_local`) — thư mục tài nguyên đã giải nén
+   *   **Chế độ cache** (`--vcsky_cache`, `--vcbr_cache`) — tải từ CDN một lần, sau đó phục vụ cục bộ
 
-3. **Launch the Application**:
-   Choose one of the setup methods below:
-   * **Docker** (Recommended for most users) — fast and isolated.
-   * **PHP** — Simply upload the folder to your web server (FTP/Hosting).
-   * **Manual Installation** — for development and customization.
+3. **Chạy ứng dụng**:
+   Chọn một trong các phương pháp thiết lập dưới đây:
+   * **Docker** (Khuyến nghị cho hầu hết người dùng) — nhanh và cô lập.
+   * **PHP** — Chỉ cần tải thư mục lên server web của bạn (FTP/Hosting).
+   * **Cài đặt thủ công** — dành cho phát triển và tùy chỉnh.
 
-## Setup & Running
+## Thiết lập & Chạy
 
-### Option 1: Using Docker (Recommended)
-The easiest way to get started is using Docker Compose:
+### Tùy chọn 1: Sử dụng Docker (Khuyến nghị)
+Cách dễ nhất để bắt đầu là sử dụng Docker Compose:
 
 ```bash
 PACKED=https://folder.morgen.monster/revcdos.bin docker compose up -d --build
 ```
 
-To configure server options via environment variables:
+Để cấu hình các tùy chọn server thông qua biến môi trường:
 
 ```bash
-# Set port, enable auth and custom saves
+# Đặt cổng, bật xác thực và lưu tùy chỉnh
 IN_PORT=3000 AUTH_LOGIN=admin AUTH_PASSWORD=secret CUSTOM_SAVES=1 docker compose up -d --build
 ```
 
-| Environment Variable | Description |
-|---------------------|-------------|
-| `OUT_HOST` | External host (default: 0.0.0.0) |
-| `OUT_PORT` | External port (default: 8000) |
-| `IN_PORT` | Internal container port (default: 8000) |
-| `AUTH_LOGIN` | HTTP Basic Auth username |
-| `AUTH_PASSWORD` | HTTP Basic Auth password |
-| `CUSTOM_SAVES` | Enable local saves (set to `1`) |
-| `VCSKY_LOCAL` | Serve vcsky from local directory (set to `1`, or path like `/data/vcsky`) |
-| `VCBR_LOCAL` | Serve vcbr from local directory (set to `1`, or path like `/data/vcbr`) |
-| `VCSKY_URL` | Custom vcsky proxy URL |
-| `VCBR_URL` | Custom vcbr proxy URL |
-| `VCSKY_CACHE` | Cache vcsky files locally while proxying (set to `1`) |
-| `VCBR_CACHE` | Cache vcbr files locally while proxying (set to `1`) |
-| `PACKED` | Serve from packed archive (filename or URL, e.g., `revcdos.bin`) |
-| `UNPACKED` | Unpack archive to local folders (filename or URL, auto-sets vcsky/vcbr paths) |
-| `PACK` | Pack a folder and serve from resulting archive (folder path or MD5 hash) |
+| Biến môi trường | Mô tả |
+|------------------|-------|
+| `OUT_HOST` | Host bên ngoài (mặc định: 0.0.0.0) |
+| `OUT_PORT` | Cổng bên ngoài (mặc định: 8000) |
+| `IN_PORT` | Cổng nội bộ container (mặc định: 8000) |
+| `AUTH_LOGIN` | Tên người dùng HTTP Basic Auth |
+| `AUTH_PASSWORD` | Mật khẩu HTTP Basic Auth |
+| `CUSTOM_SAVES` | Bật lưu cục bộ (đặt giá trị `1`) |
+| `VCSKY_LOCAL` | Phục vụ vcsky từ thư mục cục bộ (đặt giá trị `1`, hoặc đường dẫn như `/data/vcsky`) |
+| `VCBR_LOCAL` | Phục vụ vcbr từ thư mục cục bộ (đặt giá trị `1`, hoặc đường dẫn như `/data/vcbr`) |
+| `VCSKY_URL` | URL proxy vcsky tùy chỉnh |
+| `VCBR_URL` | URL proxy vcbr tùy chỉnh |
+| `VCSKY_CACHE` | Cache tệp vcsky cục bộ khi proxy (đặt giá trị `1`) |
+| `VCBR_CACHE` | Cache tệp vcbr cục bộ khi proxy (đặt giá trị `1`) |
+| `PACKED` | Phục vụ từ tệp nén (tên tệp hoặc URL, ví dụ: `revcdos.bin`) |
+| `UNPACKED` | Giải nén tệp vào thư mục cục bộ (tên tệp hoặc URL, tự động đặt đường dẫn vcsky/vcbr) |
+| `PACK` | Nén thư mục và phục vụ từ tệp nén kết quả (đường dẫn thư mục hoặc hash MD5) |
 
-### Option 2: Local Installation
+### Tùy chọn 2: Cài đặt cục bộ
 
-1. Install Python dependencies:
+1. Cài đặt các thư viện Python:
 ```bash
 pip install -r requirements.txt
 ```
 
-2. Start the server:
+2. Khởi động server:
 ```bash
 python server.py --packed https://folder.morgen.monster/revcdos.bin
 ```
 
-Server starts at `http://localhost:8000`
+Server sẽ chạy tại `http://localhost:8000`
 
-### Option 3: Shared Hosting on PHP (No installation)
+### Tùy chọn 3: Hosting chia sẻ trên PHP (Không cần cài đặt)
 
-If you want to run the game from a hosted environment with `PHP 8.0` or above, just copy the contents of this repo to your desired hosting
-By default the `index.php` and `.htaccess` will get the job done. 
-## Server Options
+Nếu bạn muốn chạy game từ môi trường hosting với `PHP 8.0` trở lên, chỉ cần sao chép nội dung của repo này vào hosting mong muốn.
+Mặc định, `index.php` và `.htaccess` sẽ xử lý mọi thứ. 
+## Tùy chọn server
 
-| Option | Type | Default | Description |
+| Tùy chọn | Kiểu | Mặc định | Mô tả |
 |--------|------|---------|-------------|
-| `--port` | int | 8000 | Server port |
-| `--custom_saves` | flag | disabled | Enable local save files (saves router) |
-| `--login` | string | none | HTTP Basic Auth username |
-| `--password` | string | none | HTTP Basic Auth password |
-| `--vcsky_local` | string/flag | disabled | Serve vcsky from local directory. Use flag for `vcsky/` or specify path |
-| `--vcbr_local` | string/flag | disabled | Serve vcbr from local directory. Use flag for `vcbr/` or specify path |
-| `--vcsky_url` | string | `https://cdn.dos.zone/vcsky/` | Custom vcsky proxy URL |
-| `--vcbr_url` | string | `https://br.cdn.dos.zone/vcsky/` | Custom vcbr proxy URL |
-| `--vcsky_cache` | flag | disabled | Cache vcsky files locally while proxying |
-| `--vcbr_cache` | flag | disabled | Cache vcbr files locally while proxying |
-| `--packed` | string | disabled | Serve from packed archive file. Accepts file path or URL |
-| `--unpacked` | string | disabled | Unpack archive to `unpacked/{hash}/` and serve from there. Accepts file path or URL |
-| `--pack` | string | disabled | Pack a folder and serve from resulting `{hash}.bin` archive. Accepts folder path or MD5 hash |
+| `--port` | int | 8000 | Cổng server |
+| `--custom_saves` | cờ | tắt | Bật tệp lưu cục bộ (router lưu) |
+| `--login` | chuỗi | không có | Tên người dùng HTTP Basic Auth |
+| `--password` | chuỗi | không có | Mật khẩu HTTP Basic Auth |
+| `--vcsky_local` | chuỗi/cờ | tắt | Phục vụ vcsky từ thư mục cục bộ. Sử dụng cờ cho `vcsky/` hoặc chỉ định đường dẫn |
+| `--vcbr_local` | chuỗi/cờ | tắt | Phục vụ vcbr từ thư mục cục bộ. Sử dụng cờ cho `vcbr/` hoặc chỉ định đường dẫn |
+| `--vcsky_url` | chuỗi | `https://cdn.dos.zone/vcsky/` | URL proxy vcsky tùy chỉnh |
+| `--vcbr_url` | chuỗi | `https://br.cdn.dos.zone/vcsky/` | URL proxy vcbr tùy chỉnh |
+| `--vcsky_cache` | cờ | tắt | Cache tệp vcsky cục bộ khi proxy |
+| `--vcbr_cache` | cờ | tắt | Cache tệp vcbr cục bộ khi proxy |
+| `--packed` | chuỗi | tắt | Phục vụ từ tệp nén. Chấp nhận đường dẫn tệp hoặc URL |
+| `--unpacked` | chuỗi | tắt | Giải nén tệp vào `unpacked/{hash}/` và phục vụ từ đó. Chấp nhận đường dẫn tệp hoặc URL |
+| `--pack` | chuỗi | tắt | Nén một thư mục và phục vụ từ tệp nén `{hash}.bin` kết quả. Chấp nhận đường dẫn thư mục hoặc hash MD5 |
 
-**Examples:**
+**Ví dụ:**
 ```bash
-# Start on custom port
+# Bắt đầu trên cổng tùy chỉnh
 python server.py --port 3000
 
-# Enable local saves
+# Bật lưu cục bộ
 python server.py --custom_saves
 
-# Enable HTTP Basic Authentication
+# Bật xác thực HTTP Basic
 python server.py --login admin --password secret123
 
-# Use local vcsky and vcbr files
+# Sử dụng tệp vcsky và vcbr cục bộ
 python server.py --vcsky_local --vcbr_local
 
-# Cache files locally while proxying (hybrid mode) (recommended)
+# Cache tệp cục bộ khi proxy (chế độ lai) (khuyến nghị)
 python server.py --vcsky_cache --vcbr_cache
 
-# Serve from packed archive (local file)
+# Phục vụ từ tệp nén (tệp cục bộ)
 python server.py --packed revcdos.bin
 
-# Serve from packed archive (download from URL if not present)
+# Phục vụ từ tệp nén (tải từ URL nếu không có)
 python server.py --packed https://example.com/revcdos.bin
 
-# Unpack archive and serve from unpacked files
+# Giải nén tệp và phục vụ từ tệp đã giải nén
 python server.py --unpacked revcdos.bin
 
-# Stream-unpack from URL (downloads and unpacks simultaneously)
+# Phát-stream và giải nén từ URL (tải xuống và giải nén đồng thời)
 python server.py --unpacked https://example.com/revcdos.bin
 
-# Pack a folder and serve from the resulting archive
-python server.py --pack /path/to/assets  # Creates {folder_hash}.bin
+# Nén một thư mục và phục vụ từ tệp nén kết quả
+python server.py --pack /path/to/assets  # Tạo {folder_hash}.bin
 
-# Pack from existing unpacked folder by MD5 hash
-python server.py --pack a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6  # Uses unpacked/{hash}/
+# Nén từ thư mục đã giải nén theo hash MD5
+python server.py --pack a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6  # Sử dụng unpacked/{hash}/
 ```
 
-> **Note:** HTTP Basic Auth is only enabled when both `--login` and `--password` are provided.
+> **Lưu ý:** HTTP Basic Auth chỉ được bật khi cả `--login` và `--password` đều được cung cấp.
 
-> **Note:** By default, vcsky and vcbr are proxied from DOS Zone CDN. Use `--vcsky_local` and `--vcbr_local` flags to serve files from local directories instead. You can optionally specify a custom path.
+> **Lưu ý:** Theo mặc định, vcsky và vcbr được proxy từ DOS Zone CDN. Sử dụng cờ `--vcsky_local` và `--vcbr_local` để phục vụ tệp từ thư mục cục bộ. Bạn cũng có thể chỉ định một đường dẫn tùy chỉnh.
 
-> **Note:** Use `--vcsky_cache` and `--vcbr_cache` to cache proxied files locally. Files are downloaded once and served from local storage on subsequent requests.
+> **Lưu ý:** Sử dụng cờ `--vcsky_cache` và `--vcbr_cache` để cache tệp được proxy cục bộ. Tệp sẽ được tải xuống một lần và phục vụ từ bộ nhớ cục bộ trong các yêu cầu tiếp theo.
 
-> **Note:** `--packed` serves files directly from a compressed archive without unpacking (faster and more compressed). `--unpacked` extracts the archive once and serves from local files (if you want edit assets).
+> **Lưu ý:** `--packed` phục vụ tệp trực tiếp từ một tệp nén mà không cần giải nén (nhanh hơn và nén hơn). `--unpacked` giải nén tệp một lần và phục vụ từ tệp cục bộ (nếu bạn muốn chỉnh sửa tài nguyên).
 
-> **Note:** When using URL with `--unpacked`, the archive is streamed and unpacked simultaneously during download using `downloader_brotli.py`.
+> **Lưu ý:** Khi sử dụng URL với `--unpacked`, tệp lưu trữ sẽ được phát và giải nén đồng thời trong quá trình tải xuống bằng `downloader_brotli.py`.
 
-> **Note:** You can pass a raw MD5 hash (32 hex characters) to `--unpacked` to use an existing unpacked folder without needing the original archive. Example: if you have `unpacked/a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6/`, you can start the server with `--unpacked a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6`.
+> **Lưu ý:** Bạn có thể truyền một hash MD5 thô (32 ký tự hex) cho `--unpacked` để sử dụng một thư mục đã giải nén mà không cần tệp lưu trữ gốc. Ví dụ: nếu bạn có `unpacked/a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6/`, bạn có thể khởi động server với `--unpacked a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6`.
 
-> **Note:** `--pack` creates a packed archive from a folder containing subfolders (like `vcsky/` and `vcbr/`). Each subfolder is packed sequentially: the first creates the archive, subsequent ones are appended. After packing, the server automatically uses the created archive via `--packed` mode.
+> **Lưu ý:** `--pack` tạo một tệp nén từ một thư mục chứa các thư mục con (như `vcsky/` và `vcbr/`). Mỗi thư mục con sẽ được nén theo thứ tự: thư mục đầu tiên tạo tệp nén, các thư mục sau sẽ được thêm vào. Sau khi nén, server sẽ tự động sử dụng tệp nén đã tạo qua chế độ `--packed`.
 
-## URL Parameters
+## Tham số URL
 
-| Parameter | Values | Description |
+| Tham số | Giá trị | Mô tả |
 |-----------|--------|-------------|
-| `lang` | `en`, `ru` | Game language |
-| `cheats` | `1` | Enable cheat menu (F3) |
-| `request_original_game` | `1` | Request original game files before play |
-| `fullscreen` | `0` | Disable auto-fullscreen |
-| `max_fps` | `1-240` | Limit frame rate (e.g., `60` for 60 FPS) |
-| `configurable` | `1` | Show configuration UI before play button |
+| `lang` | `en`, `ru` | Ngôn ngữ game |
+| `cheats` | `1` | Bật menu gian lận (F3) |
+| `request_original_game` | `1` | Yêu cầu tệp game gốc trước khi chơi |
+| `fullscreen` | `0` | Vô hiệu hóa chế độ toàn màn hình tự động |
+| `max_fps` | `1-240` | Giới hạn tỷ lệ khung hình (ví dụ: `60` cho 60 FPS) |
+| `configurable` | `1` | Hiển thị giao diện cấu hình trước nút chơi |
 
 
-**Examples:**
-- `http://localhost:8000/?lang=ru` — Russian version
-- `http://localhost:8000/?lang=en&cheats=1` — English + cheats
-- `http://localhost:8000/?configurable=1` — Show settings UI before play
+**Ví dụ:**
+- `http://localhost:8000/?lang=ru` — Phiên bản tiếng Nga
+- `http://localhost:8000/?lang=en&cheats=1` — Tiếng Anh + gian lận
+- `http://localhost:8000/?configurable=1` — Hiển thị giao diện cài đặt trước khi chơi
 
-## Project Structure
+## Cấu trúc dự án
 
 ```
 ├── server.py           # FastAPI proxy server
@@ -231,50 +231,50 @@ python server.py --pack a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6  # Uses unpacked/{hash}
         └── ...
 ```
 
-## Features
+## Tính năng
 
-- 🎮 Gamepad emulation for touch devices
-- ☁️ Cloud saves via js-dos key
-- 💾 Local saves (with `--custom_saves` flag)
-- 🌍 English/Russian language support
-- 🔧 Built-in cheat engine (memory scanner, cheats)
-- 📱 Mobile touch controls
+- 🎮 Giả lập gamepad cho thiết bị cảm ứng
+- ☁️ Lưu trữ đám mây qua js-dos key
+- 💾 Lưu cục bộ (với cờ `--custom_saves`)
+- 🌍 Hỗ trợ ngôn ngữ Tiếng Anh / Tiếng Nga
+- 🔧 Công cụ gian lận tích hợp (quét bộ nhớ, gian lận)
+- 📱 Điều khiển cảm ứng trên di động
 
-## Local Saves
+## Lưu cục bộ
 
-When local saves are enabled (`--custom_saves` flag), enter any 5-character identifier in the "js-dos key" input field on the start page. This identifier will be used to store your saves in the `saves/` directory on the server.
+Khi lưu cục bộ được bật (cờ `--custom_saves`), nhập bất kỳ định danh 5 ký tự nào vào trường nhập "js-dos key" trên trang bắt đầu. Định danh này sẽ được sử dụng để lưu trữ các tệp lưu trong thư mục `saves/` trên server.
 
-Example: Enter `mykey` or `12345` — saves will be stored as `mykey_vcsky.saves` or `12345_vcsky.saves`.
+Ví dụ: Nhập `mykey` hoặc `12345` — các tệp lưu sẽ được lưu trữ dưới dạng `mykey_vcsky.saves` hoặc `12345_vcsky.saves`.
 
-## Controls (Touch)
+## Điều khiển (Cảm ứng)
 
-Touch controls appear automatically on mobile devices. Virtual joysticks for movement and camera, context-sensitive action buttons.
+Các điều khiển cảm ứng sẽ xuất hiện tự động trên các thiết bị di động. Các cần điều khiển ảo cho chuyển động và camera, các nút hành động nhạy cảm với ngữ cảnh.
 
-## Cheats
+## Gian lận
 
-Enable with `?cheats=1`, press **F3** to open menu:
-- Memory scanner (find/edit values)
-- All classic GTA VC cheats
-- AirBreak (noclip mode)
+Bật với `?cheats=1`, nhấn **F3** để mở menu:
+- Quét bộ nhớ (tìm/ chỉnh sửa giá trị)
+- Tất cả các mã gian lận cổ điển của GTA VC
+- AirBreak (chế độ không va chạm)
 
-## License
+## Giấy phép
 
-MIT. Do what you want (but credit the port authors and me). Not affiliated with Rockstar Games.
+MIT. Làm những gì bạn muốn (nhưng hãy ghi công cho các tác giả port và tôi). Không liên quan đến Rockstar Games.
 
 ---
 
-**Authors:** DOS Zone ([@specialist003](https://github.com/okhmanyuk-ev), [@caiiiycuk](https://www.youtube.com/caiiiycuk), [@SerGen](https://t.me/ser_var))
+**Tác giả:** DOS Zone ([@specialist003](https://github.com/okhmanyuk-ev), [@caiiiycuk](https://www.youtube.com/caiiiycuk), [@SerGen](https://t.me/ser_var))
 
-**Deobfuscated by**: [@Lolendor](https://github.com/Lolendor)
+**Giải mã bởi**: [@Lolendor](https://github.com/Lolendor)
 
-**Russian translation:** [GamesVoice](https://www.gamesvoice.ru/)
+**Bản dịch tiếng Nga:** [GamesVoice](https://www.gamesvoice.ru/)
 
-**Added by the community:**
-* PHP Support by [Rohamgames](https://github.com/Rohamgames)
+**Được thêm bởi cộng đồng:**
+* Hỗ trợ PHP bởi [Rohamgames](https://github.com/Rohamgames)
 
-## Support [me](https://github.com/Lolendor)
+## Hỗ trợ [tôi](https://github.com/Lolendor)
 
-If you find this project useful:
+Nếu bạn thấy dự án này hữu ích:
 
 - **TON / USDT (TON)**  `UQAyBchGEKi9NnNQ3AKMQMuO-SGEhMIAKFAbkwwrsiOPj9Gy`
 - **ETH / USDT (ERC-20)** `0x69Ec02715cF65538Bb03725F03Bd4c85D33F8AC0`
