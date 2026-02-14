@@ -8,6 +8,68 @@
 
 Phiên bản web của GTA: Vice City chạy trên trình duyệt thông qua WebAssembly.
 
+---
+
+## Chạy bằng Google Colab (không cần cài đặt)
+
+Cách này dành cho người không muốn cài Docker/Python cục bộ.
+Toàn bộ server sẽ chạy trên Colab và truy cập qua tunnel công khai.
+
+### Quy trình từng bước
+
+1. **Mở notebook Colab**
+   
+   Nhấn nút "Mở trên Colab" ở đầu README.
+
+2. **Chạy cell Start Server**
+   
+   Chờ server khởi động
+
+3. **Khi hoàn tất, Colab hiển thị:**
+   
+   - Tunnel URL
+   - Tunnel Password
+
+   Sao chép Tunnel Password.
+
+4. **Truy cập trang tunnel**
+   
+   Mở Tunnel URL trong trình duyệt.
+   
+   Dán Tunnel Password → Submit để vào trang game.
+
+5. **Khởi chạy game**
+   
+   Nhấn Launch Game.
+   
+   Game sẽ chạy trực tiếp trên trình duyệt.
+
+> **Lưu ý:** Colab có thể tự ngắt sau một thời gian không hoạt động. Khi đó cần chạy lại cell để tạo tunnel mới.
+
+### Luồng hoạt động (tóm tắt logic)
+
+Đây là chuỗi thực thi thật sự:
+
+```
+Run Colab cell
+   ↓
+Start FastAPI server + public tunnel
+   ↓
+Copy tunnel password
+   ↓
+Open tunnel URL → enter password
+   ↓
+Load web client → Launch Game
+```
+
+### Lưu ý quan trọng
+
+- Colab có thời gian chạy giới hạn tùy vào tài khoản và mức sử dụng hiện tại
+- **Đóng tab Colab → tunnel chết**, có thể không vào được game
+- **Cần giữ tab Colab mở** trong khi chơi game
+
+---
+
 ## Yêu cầu
 
 - Colab hoặc Docker hoặc Python 3.8+ hoặc PHP 8.0+
